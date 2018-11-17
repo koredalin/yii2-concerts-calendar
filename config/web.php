@@ -52,6 +52,28 @@ $config = [
         ],
         */
     ],
+    'modules' => [
+        'user' => [
+            'class' => 'dektrium\user\Module',
+            'controllerMap' => [
+                'admin' => '\app\controllers\user\AdminController',
+            ],
+            'modelMap' => [
+                'User' => 'app\models\User',
+            ],
+            'enableUnconfirmedLogin' => true,
+            'confirmWithin' => 21600,
+            'admins' => ['admin'],
+            'enableConfirmation' => true,
+            'mailer' => [
+                'sender'                => ['info@example.com' => 'Sender name'],
+                'welcomeSubject'        => 'Welcome to http://example.com',
+                'confirmationSubject'   => 'http://example.com. Please, confirm your e-mail address',
+                'reconfirmationSubject' => 'http://example.com. Please, reconfirm your e-mail address',
+                'recoverySubject'       => 'http://example.com. Password recovery',
+            ],
+        ],
+    ],
     'params' => $params,
 ];
 
