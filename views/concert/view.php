@@ -30,10 +30,22 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'date',
-            'band_id',
+            [
+                'attribute' => 'band',
+                'Label' => 'Band',
+                'value' => $model->band->name,
+            ],
             'location',
-            'country_id',
+            [
+                'attribute' => 'country',
+                'Label' => 'Country',
+                'value' => $model->country->name,
+            ],
             'description:ntext',
+            [
+                'attribute' => 'has_photo',
+                'value' => $model->has_photo ? 'Yes' : 'No',
+            ],
             'created_at',
             'updated_at',
         ],

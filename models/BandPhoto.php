@@ -10,18 +10,18 @@ class BandPhoto extends Model
     /**
      * @var UploadedFile
      */
-    public $imageFile;
+    public $imageFile = null;
 
     public function rules()
     {
         return [
-            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
         ];
     }
     
     public function upload()
     {
-        if ($this->validate()) {
+        if (isset($this->imageFile) && $this->validate()) {
             $this->imageFile->saveAs('band_images/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
             return true;
         } else {
@@ -31,7 +31,7 @@ class BandPhoto extends Model
     
     public function uploadBandPhoto($concertId)
     {
-        if ($this->validate()) {
+        if (isset($this->imageFile) && $this->validate()) {
             $this->imageFile->saveAs('band_images/bandPhotoConcertId' . (int)$concertId . '.' . $this->imageFile->extension);
             return true;
         } else {

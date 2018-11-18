@@ -13,6 +13,7 @@ use Yii;
  * @property string $location
  * @property int $country_id
  * @property string $description
+ * @property string $has_photo
  * @property string $created_at
  * @property string $updated_at
  *
@@ -35,9 +36,9 @@ class Concert extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date', 'band_id', 'location', 'country_id', 'description'], 'required'],
+            [['date', 'band_id', 'location', 'country_id', 'description', 'has_photo'], 'required'],
             [['date', 'created_at', 'updated_at'], 'safe'],
-            [['band_id', 'country_id'], 'integer'],
+            [['band_id', 'country_id', 'has_photo'], 'integer'],
             [['description'], 'string'],
             [['location'], 'string', 'max' => 255],
             [['band_id'], 'exist', 'skipOnError' => true, 'targetClass' => Band::className(), 'targetAttribute' => ['band_id' => 'id']],
@@ -57,6 +58,7 @@ class Concert extends \yii\db\ActiveRecord
             'location' => Yii::t('app', 'Location'),
             'country_id' => Yii::t('app', 'Country ID'),
             'description' => Yii::t('app', 'Description'),
+            'has_photo' => Yii::t('app', 'Has Photo'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];

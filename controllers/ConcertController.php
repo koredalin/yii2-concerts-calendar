@@ -112,27 +112,22 @@ class ConcertController extends Controller
         $countries = CountryQuery::getAllCountriesDropdown();
         $post = Yii::$app->request->isPost ? Yii::$app->request->post() : array();
         
-        
-        
-        $isValidConcert = $model->load($post) && $model->save();
         $isValidBand = $bandModel->load($post) && $bandModel->save();
-        $isBandPhoto = array_key_exists('UploadBandPhoto', $post);
-        /*
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-        if ($bandModel->load(Yii::$app->request->post()) && $bandModel->save()) {
-            return $this->redirect(['view', 'id' => $bandModel->id]);
-        }
-        if ($isBandPhoto) {
-            $bandPhotoModel->imageFile = UploadedFile::getInstance($bandPhotoModel, 'imageFile');
-            $isUploadedPhoto = (int)$bandPhotoModel->upload();
-            if ($isUploadedPhoto) {
-                echo __LINE__ . ' |||| ';
-                return;
+        if ($isValidBand) {
+            $model->band_id = (int)$bandModel->id;
+            $isBandPhoto = array_key_exists('BandPhoto', $post);
+            $model->has_photo = 0;
+            $isValidConcert = $model->load($post) && $model->save();
+            if ($isBandPhoto && $isValidConcert) {
+                $bandPhotoModel->imageFile = UploadedFile::getInstance($bandPhotoModel, 'imageFile');
+                $isUploadedPhoto = (int)$bandPhotoModel->uploadBandPhoto($model->id);
+                $model->has_photo = ($isUploadedPhoto) ? 1 : 0;
+                $model->has_photo ? $isValidConcert = $model->save() : false;
+            }
+            if ($isValidConcert) {
+                return $this->redirect(['view', 'id' => $model->id]);
             }
         }
-        /**/
 
         return $this->render('create', [
             'model' => $model,
@@ -152,6 +147,8 @@ class ConcertController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $bandModel = new Band();
+        $countries = CountryQuery::getAllCountriesDropdown();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -159,6 +156,9 @@ class ConcertController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'bandModel' => $bandModel,
+            'bandPhotoModel' => $bandPhotoModel,
+            'countries' => $countries,
         ]);
     }
 

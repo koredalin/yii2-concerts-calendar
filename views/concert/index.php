@@ -24,16 +24,32 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
             'date',
-            'band_id',
-            'location',
-            'country_id',
-            //'description:ntext',
-            //'created_at',
-            //'updated_at',
+            [
+                'label' => 'Band Name',
+                'attribute' => 'bandName',
+                'filter' => Html::activeInput('text', $searchModel, 'bandName'),
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return $data->band->name;
+                },
+            ],
+            [
+                'label' => 'Location',
+                'attribute' => 'location',
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return $data->location . ' (' . $data->country->iso_abbr . ')';
+                },
+            ],
+            [
+                'label' => 'Thumbnail Photo',
+                'attribute' => 'has_photo',
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return $data->has_photo ? 'yes' : 'no';
+                },
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

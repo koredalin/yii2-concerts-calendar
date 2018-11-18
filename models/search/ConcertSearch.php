@@ -12,6 +12,8 @@ use app\models\Concert;
  */
 class ConcertSearch extends Concert
 {
+    public $bandName;
+    
     /**
      * {@inheritdoc}
      */
@@ -42,6 +44,7 @@ class ConcertSearch extends Concert
     public function search($params)
     {
         $query = Concert::find();
+        $query->joinWith(['band']);
 
         // add conditions that should always apply here
 
@@ -61,14 +64,15 @@ class ConcertSearch extends Concert
         $query->andFilterWhere([
             'id' => $this->id,
             'date' => $this->date,
-            'band_id' => $this->band_id,
-            'country_id' => $this->country_id,
+//            'band_id' => $this->band_id,
+//            'country_id' => $this->country_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'location', $this->location])
-            ->andFilterWhere(['like', 'description', $this->description]);
+            ->andFilterWhere(['like', 'description', $this->description])
+            ->andFilterWhere(['like', 'band.name', $this->bandName]);
 
         return $dataProvider;
     }

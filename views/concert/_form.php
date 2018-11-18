@@ -15,22 +15,27 @@ use yii\jui\DatePicker;
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
     
-    <?php
-    echo DatePicker::widget([
-        'model' => $model,
-        'attribute' => 'date',
-        'dateFormat' => 'yyyy-MM-dd',
-    ]);
-    ?>
+    <div><strong>Date</strong></div>
+	<div class="inner-addon right-addon">
+        <i class="glyphicon glyphicon-calendar"></i>
+        <?php
+        echo DatePicker::widget([
+            'model' => $model,
+            'attribute' => 'date',
+            'dateFormat' => 'yyyy-MM-dd',
+            'options' => ['class' => 'form-control'],
+        ]);
+        ?>
+    </div>
 
-    <?= $form->field($model, 'band_id')->textInput() ?>
+    <?php echo $form->field($bandModel, 'name')->textInput(); ?>
+    
+    <?php // echo $form->field($model, 'band_id')->textInput(); ?>
 
     <?= $form->field($model, 'location')->textInput(['maxlength' => true]) ?>
-
-    <?php // echo $form->field($model, 'country_id')->textInput(); ?>
-    <?php
-//    print_r($countries); exit;
-    echo $form->field($model, 'country_id[]')->dropDownList($countries, ['class' => 'form-control', 'prompt' => 'Choose a country',]); ?>
+    
+    <?php echo $form->field($model, 'country_id')->
+            dropDownList($countries, ['class' => 'form-control', 'prompt' => 'Choose a country',]); ?>
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
