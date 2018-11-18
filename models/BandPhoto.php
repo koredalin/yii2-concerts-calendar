@@ -5,7 +5,7 @@ namespace app\models;
 use yii\base\Model;
 use yii\web\UploadedFile;
 
-class UploadBandImage extends Model
+class BandPhoto extends Model
 {
     /**
      * @var UploadedFile
@@ -27,5 +27,20 @@ class UploadBandImage extends Model
         } else {
             return false;
         }
+    }
+    
+    public function uploadBandPhoto($concertId)
+    {
+        if ($this->validate()) {
+            $this->imageFile->saveAs('band_images/bandPhotoConcertId' . (int)$concertId . '.' . $this->imageFile->extension);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function getImageFile()
+    {
+        return $this->imageFile;
     }
 }

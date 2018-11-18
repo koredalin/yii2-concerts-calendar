@@ -28,4 +28,17 @@ class AppAsset extends AssetBundle
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
     ];
+
+	public function __construct($config = array()) {
+		$this->set_js_files();
+		parent::__construct($config);
+	}
+
+	protected function set_js_files() {
+		$ctrlAct = \Yii::$app->controller->id . '-' . \Yii::$app->controller->action->id;
+		if (in_array($ctrlAct, array('concert-create'), true)) {
+//			$this->css[] = 'css/docs.css';
+			$this->js[] = 'js/concert/imagePreview.js';
+		}
+    }
 }

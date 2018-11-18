@@ -9,7 +9,6 @@ use Yii;
  *
  * @property int $id
  * @property string $name
- * @property string $file_name
  * @property string $created_at
  * @property string $updated_at
  *
@@ -31,9 +30,9 @@ class Band extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'file_name'], 'required'],
+            [['name'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
-            [['name', 'file_name'], 'string', 'max' => 255],
+            [['name'], 'string', 'max' => 255],
         ];
     }
 
@@ -45,7 +44,6 @@ class Band extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
-            'file_name' => Yii::t('app', 'File Name'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];

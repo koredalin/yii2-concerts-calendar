@@ -5,6 +5,9 @@ namespace app\controllers;
 use Yii;
 use app\models\Concert;
 use app\models\search\ConcertSearch;
+use app\models\Band;
+use app\models\BandPhoto;
+use yii\web\UploadedFile;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use dektrium\user\filters\AccessRule;
@@ -74,6 +77,28 @@ class ConcertController extends Controller
     }
 
     /**
+     * Displays a single Concert model.
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionUploadbandphoto()
+    {
+        $bandPhotoModel = new BandPhoto();
+        
+        if (Yii::$app->request->isPost) {
+            $bandPhotoModel->imageFile = UploadedFile::getInstance($bandPhotoModel, 'imageFile');
+            if ($bandPhotoModel->upload()) {
+                // file is uploaded successfully
+                return;
+            }
+        }
+        
+        return $this->render('upload_photo', [
+            'bandPhotoModel' => $bandPhotoModel,
+        ]);
+    }
+
+    /**
      * Creates a new Concert model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -81,13 +106,36 @@ class ConcertController extends Controller
     public function actionCreate()
     {
         $model = new Concert();
-
+        $bandModel = new Band();
+        $bandPhotoModel = new BandPhoto();
+        $post = Yii::$app->request->isPost ? Yii::$app->request->post() : array();
+        
+        
+        /*
+        $isValidConcert = $model->load($post) && $model->save();
+        $isValidBand = $bandModel->load($post) && $bandModel->save();
+        $isBandPhoto = array_key_exists('UploadBandPhoto', $post);
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
+        if ($bandModel->load(Yii::$app->request->post()) && $bandModel->save()) {
+            return $this->redirect(['view', 'id' => $bandModel->id]);
+        }
+        if ($isBandPhoto) {
+            $bandPhotoModel->imageFile = UploadedFile::getInstance($bandPhotoModel, 'imageFile');
+            $isUploadedPhoto = (int)$bandPhotoModel->upload();
+            if ($isUploadedPhoto) {
+                echo __LINE__ . ' |||| ';
+                return;
+            }
+        }
+        /**/
 
         return $this->render('create', [
             'model' => $model,
+            'bandModel' => $bandModel,
+            'bandPhotoModel' => $bandPhotoModel,
         ]);
     }
 

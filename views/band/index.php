@@ -28,7 +28,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'name',
-            'file_name',
             'created_at',
             'updated_at',
 
