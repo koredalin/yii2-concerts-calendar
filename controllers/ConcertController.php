@@ -9,6 +9,7 @@ use app\models\Band;
 use app\models\BandPhoto;
 use app\models\query\CountryQuery;
 use yii\web\UploadedFile;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use dektrium\user\filters\AccessRule;
@@ -147,11 +148,24 @@ class ConcertController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $bandModel = new Band();
+        $bandModel = $model->band;
+        $bandPhotoModel = new BandPhoto();
         $countries = CountryQuery::getAllCountriesDropdown();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $post = Yii::$app->request->isPost ? Yii::$app->request->post() : array();
+        
+        $isValidBand = $bandModel->load($post) && $bandModel->save();
+        if (Yii::$app->request->isPost && $isValidBand) {
+            $model->band_id = (int)$bandModel->id;
+            $isPostBandPhoto = isset($post['BandPhoto']['imageFile']) && !empty($post['BandPhoto']['imageFile']);
+            if ($isPostBandPhoto) {
+                $bandPhotoModel->imageFile = UploadedFile::getInstance($bandPhotoModel, 'imageFile');
+                $isUploadedPhoto = (int)$bandPhotoModel->uploadBandPhoto($model->id);
+                $model->has_photo = ($isUploadedPhoto) ? 1 : 0;
+            }
+            $isValidConcert = $model->load($post) && $model->save();
+            if ($isValidConcert) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('update', [

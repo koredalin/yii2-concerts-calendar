@@ -1,0 +1,5 @@
+
+Checks if there is an image.
+//   $bandPhotoUrl = Url::to('@web/band_images/bandPhotoConcertId'.(int)$id.'.jpg', true);
+//   $headers = get_headers($bandPhotoUrl, 1);
+//   $model->has_photo = ($headers[0] === 'HTTP/1.1 200 OK') ? 1 : 0;
