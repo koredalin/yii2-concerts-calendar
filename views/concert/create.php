@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'bandModel' => $bandModel,
         'bandPhotoModel' => $bandPhotoModel,
+        'countries' => $countries,
     ]) ?>
 
 </div>

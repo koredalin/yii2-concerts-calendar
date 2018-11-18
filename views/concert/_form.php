@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\jui\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Concert */
@@ -13,14 +14,23 @@ use yii\widgets\ActiveForm;
 <div class="concert-form">
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
-
-    <?= $form->field($model, 'date')->textInput() ?>
+    
+    <?php
+    echo DatePicker::widget([
+        'model' => $model,
+        'attribute' => 'date',
+        'dateFormat' => 'yyyy-MM-dd',
+    ]);
+    ?>
 
     <?= $form->field($model, 'band_id')->textInput() ?>
 
     <?= $form->field($model, 'location')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'country_id')->textInput() ?>
+    <?php // echo $form->field($model, 'country_id')->textInput(); ?>
+    <?php
+//    print_r($countries); exit;
+    echo $form->field($model, 'country_id[]')->dropDownList($countries, ['class' => 'form-control', 'prompt' => 'Choose a country',]); ?>
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 

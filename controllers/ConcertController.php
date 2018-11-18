@@ -7,6 +7,7 @@ use app\models\Concert;
 use app\models\search\ConcertSearch;
 use app\models\Band;
 use app\models\BandPhoto;
+use app\models\query\CountryQuery;
 use yii\web\UploadedFile;
 use yii\web\Controller;
 use yii\filters\AccessControl;
@@ -108,14 +109,15 @@ class ConcertController extends Controller
         $model = new Concert();
         $bandModel = new Band();
         $bandPhotoModel = new BandPhoto();
+        $countries = CountryQuery::getAllCountriesDropdown();
         $post = Yii::$app->request->isPost ? Yii::$app->request->post() : array();
         
         
-        /*
+        
         $isValidConcert = $model->load($post) && $model->save();
         $isValidBand = $bandModel->load($post) && $bandModel->save();
         $isBandPhoto = array_key_exists('UploadBandPhoto', $post);
-        
+        /*
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -136,6 +138,7 @@ class ConcertController extends Controller
             'model' => $model,
             'bandModel' => $bandModel,
             'bandPhotoModel' => $bandPhotoModel,
+            'countries' => $countries,
         ]);
     }
 

@@ -31,4 +31,22 @@ class CountryQuery extends \yii\db\ActiveQuery
     {
         return parent::one($db);
     }
+	
+	public static function getAllCountries() {
+		$sqlStr = 'SELECT `id`, `name` FROM country';
+		return \Yii::$app->db->createCommand($sqlStr)
+						->queryAll();
+	}
+	
+	public static function getAllCountriesDropdown() {
+        $sqlArr = self::getAllCountries();
+        $dropdownCountries = array();
+        if (!is_array($sqlArr) || empty($sqlArr)) {
+            return $dropdownCountries;
+        }
+        foreach ($sqlArr as $country) {
+            $dropdownCountries[$country['id']] = $country['name'];
+        }
+        return $dropdownCountries;
+	}
 }
