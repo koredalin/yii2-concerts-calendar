@@ -24,7 +24,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            'date',
+            [
+                'label' => 'Date',
+                'attribute' => 'date',
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return date('j F Y', strtotime($data->date));
+                },
+            ],
             [
                 'label' => 'Band Name',
                 'attribute' => 'bandName',

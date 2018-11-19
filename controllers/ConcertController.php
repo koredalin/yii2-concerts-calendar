@@ -108,10 +108,14 @@ class ConcertController extends Controller
     public function actionCreate()
     {
         $model = new Concert();
-        $bandModel = new Band();
+        $post = Yii::$app->request->isPost ? Yii::$app->request->post() : array();
+        $isPostBand = isset($post['Band']['name']) && !empty($post['Band']['name']);
+        if ($isPostBand) {
+            $bandModel = Band::findOne(['name' => trim($post['Band']['name'])]);
+        }
+        !isset($bandModel) ? $bandModel = new Band() : false;
         $bandPhotoModel = new BandPhoto();
         $countries = CountryQuery::getAllCountriesDropdown();
-        $post = Yii::$app->request->isPost ? Yii::$app->request->post() : array();
         
         $isValidBand = $bandModel->load($post) && $bandModel->save();
         if ($isValidBand) {
@@ -119,14 +123,11 @@ class ConcertController extends Controller
             $isBandPhoto = array_key_exists('BandPhoto', $post);
             $model->has_photo = 0;
             $isValidConcert = $model->load($post) && $model->save();
-            if ($isBandPhoto && $isValidConcert) {
-                $bandPhotoModel->imageFile = UploadedFile::getInstance($bandPhotoModel, 'imageFile');
-                $isUploadedPhoto = (int)$bandPhotoModel->uploadBandPhoto($model->id);
-                if($isUploadedPhoto) {
+            $bandPhotoModel->imageFile = UploadedFile::getInstance($bandPhotoModel, 'imageFile');
+            if ($isBandPhoto && $isValidConcert && $bandPhotoModel->uploadBandPhoto($model->id)) {
                     $model->has_photo = 1;
                     $model->photo_file_path = $bandPhotoModel->imageFileName;
                     $isValidConcert = $model->save();
-                }
             }
             if ($isValidConcert) {
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -156,18 +157,16 @@ class ConcertController extends Controller
         $countries = CountryQuery::getAllCountriesDropdown();
         $post = Yii::$app->request->isPost ? Yii::$app->request->post() : array();
         
+        $bandModel->updated_at = date('Y-m-d H:i:s');
         $isValidBand = $bandModel->load($post) && $bandModel->save();
         if (Yii::$app->request->isPost && $isValidBand) {
             $model->band_id = (int)$bandModel->id;
-            $isPostBandPhoto = isset($post['BandPhoto']['imageFile']) && !empty($post['BandPhoto']['imageFile']);
-            if ($isPostBandPhoto) {
-                $bandPhotoModel->imageFile = UploadedFile::getInstance($bandPhotoModel, 'imageFile');
-                $isUploadedPhoto = (int)$bandPhotoModel->uploadBandPhoto($model->id);
-                if($isUploadedPhoto) {
-                    $model->has_photo = 1;
-                    $model->photo_file_path = $bandPhotoModel->imageFileName;
-                }
+            $bandPhotoModel->imageFile = UploadedFile::getInstance($bandPhotoModel, 'imageFile');
+            if($bandPhotoModel->uploadBandPhoto($model->id)) {
+                $model->has_photo = 1;
+                $model->photo_file_path = $bandPhotoModel->imageFileName;
             }
+            $model->updated_at = date('Y-m-d H:i:s');
             $isValidConcert = $model->load($post) && $model->save();
             if ($isValidConcert) {
                 return $this->redirect(['view', 'id' => $model->id]);

@@ -79,7 +79,7 @@ class BandController extends Controller
         $out = ['results' => ['id' => '', 'text' => '']];
         if (!is_null($q)) {
             $query = Band::find();
-            $query->select('id, name AS text')
+            $query->select('name AS id, name AS text')
                 ->from('band')
                 ->where(['like', 'name', $q])
                 ->limit(20);
@@ -121,7 +121,8 @@ class BandController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        
+        $model->updated_at = date('Y-m-d H:i:s');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }

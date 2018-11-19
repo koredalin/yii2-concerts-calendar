@@ -58,7 +58,7 @@ class Concert extends \yii\db\ActiveRecord
             'date' => Yii::t('app', 'Date'),
             'band_id' => Yii::t('app', 'Band ID'),
             'location' => Yii::t('app', 'Location'),
-            'country_id' => Yii::t('app', 'Country ID'),
+            'country_id' => Yii::t('app', 'Country'),
             'description' => Yii::t('app', 'Description'),
             'has_photo' => Yii::t('app', 'Has Photo'),
             'photo_file_path' => Yii::t('app', 'Photo File Path'),
