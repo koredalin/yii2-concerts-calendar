@@ -29,8 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'model' => $searchModel,
             'attribute' => 'date',
             'dateFormat' => 'yyyy-MM-dd',
-            'options' => ['class' => 'form-control'],
-        ]).PHP_EOL;
+            'options' => ['class' => 'form-control', 'placeholder' => Yii::t('app', 'Search by date')],
+        ]);
     $dateFilter .= '</div>'.PHP_EOL;
     echo GridView::widget([
         'dataProvider' => $dataProvider,
