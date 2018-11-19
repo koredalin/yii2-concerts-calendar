@@ -3,6 +3,9 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\jui\DatePicker;
+use app\models\Band;
+use kartik\select2\Select2;
+use yii\web\JsExpression;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Concert */
@@ -28,14 +31,52 @@ use yii\jui\DatePicker;
         ?>
     </div>
 
-    <?php echo $form->field($bandModel, 'name')->textInput(); ?>
+    <?php
+    // Default Band Name Input
+//    echo $form->field($bandModel, 'name')->textInput();
     
-    <?php // echo $form->field($model, 'band_id')->textInput(); ?>
+    // Krajee Select2 Band Name Input
+    $url = \yii\helpers\Url::to(['/band/namelist']);// Get the initial band description
+    $bandDesc = empty($model->band) ? '' : Band::findOne($model->band)->description;
+    echo $form->field($model, 'band')->widget(Select2::classname(), [
+        'initValueText' => $bandDesc, // set the initial display text
+        'options' => ['placeholder' => 'Search for a band ...'],
+        'pluginOptions' => [
+            'tags' => true,
+            'allowClear' => true,
+            'minimumInputLength' => 3,
+            'language' => [
+                'errorLoading' => new JsExpression("function () { return 'Waiting for results...'; }"),
+            ],
+            'ajax' => [
+                'url' => $url,
+                'dataType' => 'json',
+                'data' => new JsExpression('function(params) { return {q:params.term}; }')
+            ],
+            'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+            'templateResult' => new JsExpression('function(band) { return band.text; }'),
+            'templateSelection' => new JsExpression('function (band) { return band.text; }'),
+        ],
+    ]);
+    ?>
 
     <?= $form->field($model, 'location')->textInput(['maxlength' => true]) ?>
     
-    <?php echo $form->field($model, 'country_id')->
-            dropDownList($countries, ['class' => 'form-control', 'prompt' => 'Choose a country',]); ?>
+    <?php
+//  Default Countries select
+//  echo $form->field($model, 'country_id')->
+//            dropDownList($countries, ['class' => 'form-control', 'prompt' => 'Choose a country',]);
+            
+    // Normal select with ActiveForm & model
+    echo $form->field($model, 'country_id')->widget(Select2::classname(), [
+        'data' => $countries,
+//        'language' => 'de',
+        'options' => ['placeholder' => 'Select a country ...'],
+        'pluginOptions' => [
+            'allowClear' => false
+        ],
+    ]);
+    ?>
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 

@@ -28,10 +28,10 @@ class BandController extends Controller
 			    'ruleConfig' => [
 			        'class' => AccessRule::className(),
 			    ],
-				'only' => ['create', 'update', 'delete', 'view', 'index'],
+				'only' => ['create', 'update', 'delete', 'view', 'index', 'namelist'],
 				'rules' => [
 					[
-						'actions' => ['create', 'update', 'delete', 'view', 'index'],
+						'actions' => ['create', 'update', 'delete', 'view', 'index', 'namelist'],
 						'allow' => true,
 						'roles' => ['@', 'admin'],
 					],
@@ -72,6 +72,25 @@ class BandController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
+    }
+    
+    public function actionNamelist($q = null, $id = null) {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'text' => '']];
+        if (!is_null($q)) {
+            $query = Band::find();
+            $query->select('id, name AS text')
+                ->from('band')
+                ->where(['like', 'name', $q])
+                ->limit(20);
+            $command = $query->createCommand();
+            $data = $command->queryAll();
+            $out['results'] = array_values($data);
+        }
+        elseif ($id > 0) {
+            $out['results'] = ['id' => $id, 'text' => City::find($id)->name];
+        }
+        return $out;
     }
 
     /**
