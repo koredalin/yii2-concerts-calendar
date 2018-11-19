@@ -21,7 +21,7 @@ class ConcertSearch extends Concert
     {
         return [
             [['id', 'band_id', 'country_id'], 'integer'],
-            [['date', 'location', 'description', 'created_at', 'updated_at'], 'safe'],
+            [['date', 'location', 'description', 'created_at', 'updated_at', 'bandName'], 'safe'],
         ];
     }
 
@@ -62,12 +62,12 @@ class ConcertSearch extends Concert
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+//            'id' => $this->id,
             'date' => $this->date,
 //            'band_id' => $this->band_id,
 //            'country_id' => $this->country_id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+//            'created_at' => $this->created_at,
+//            'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'location', $this->location])
