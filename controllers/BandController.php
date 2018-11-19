@@ -4,7 +4,8 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Band;
-use app\models\searchBandSearch;
+use app\models\search\BandSearch;
+use app\models\Concert;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use dektrium\user\filters\AccessRule;
@@ -51,7 +52,7 @@ class BandController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new searchBandSearch();
+        $searchModel = new BandSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -120,7 +121,14 @@ class BandController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $concerts = $model->getConcerts();
+        if (is_array($concerts) && count($concerts) > 0) {
+            foreach ($concerts as $concertModel) {
+                Concert::deleteBandPhoto($concertModel->photo_file_path);
+            }
+        }
+        $model->delete();
 
         return $this->redirect(['index']);
     }

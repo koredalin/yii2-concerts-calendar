@@ -37,7 +37,7 @@ class AppAsset extends AssetBundle
 
 	protected function set_js_files() {
 		$ctrlAct = \Yii::$app->controller->id . '-' . \Yii::$app->controller->action->id;
-		if (in_array($ctrlAct, array('concert-create'), true)) {
+		if (in_array($ctrlAct, array('concert-create', 'concert-update'), true)) {
 //			$this->css[] = 'css/docs.css';
 			$this->js[] = 'js/concert/imagePreview.js';
 		}

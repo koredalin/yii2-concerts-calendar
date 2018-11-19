@@ -44,7 +44,13 @@ use yii\jui\DatePicker;
     echo $form->field($bandPhotoModel, 'imageFile')->fileInput(['id' => 'imageSource']);
     ?>
 
-    <div id="localImagePreview"></div>
+    <div id="localImagePreview">
+        <?php
+        if (is_file($model->photo_file_path)) {
+            echo Html::img('@web/'.$model->photo_file_path, array('alt' => 'Server Band Concert Photo.'));
+        }
+        ?>
+    </div>
     
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

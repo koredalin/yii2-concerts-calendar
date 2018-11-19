@@ -14,6 +14,7 @@ use Yii;
  * @property int $country_id
  * @property string $description
  * @property string $has_photo
+ * @property string $photo_file_path
  * @property string $created_at
  * @property string $updated_at
  *
@@ -41,6 +42,7 @@ class Concert extends \yii\db\ActiveRecord
             [['band_id', 'country_id', 'has_photo'], 'integer'],
             [['description'], 'string'],
             [['location'], 'string', 'max' => 255],
+            [['photo_file_path'], 'string', 'max' => 50],
             [['band_id'], 'exist', 'skipOnError' => true, 'targetClass' => Band::className(), 'targetAttribute' => ['band_id' => 'id']],
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
         ];
@@ -59,6 +61,7 @@ class Concert extends \yii\db\ActiveRecord
             'country_id' => Yii::t('app', 'Country ID'),
             'description' => Yii::t('app', 'Description'),
             'has_photo' => Yii::t('app', 'Has Photo'),
+            'photo_file_path' => Yii::t('app', 'Photo File Path'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
@@ -87,5 +90,13 @@ class Concert extends \yii\db\ActiveRecord
     public static function find()
     {
         return new \app\models\query\ConcertQuery(get_called_class());
+    }
+    
+    public static function deleteBandPhoto($photoPath)
+    {
+        $photoPath = trim($photoPath);
+        if (is_file($photoPath)) {
+            unlink($photoPath);
+        }
     }
 }

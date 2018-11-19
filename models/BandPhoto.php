@@ -7,10 +7,12 @@ use yii\web\UploadedFile;
 
 class BandPhoto extends Model
 {
+    const BASE_IMAGE_FILE_NAME = 'band_images/bandPhotoConcertId';
     /**
      * @var UploadedFile
      */
     public $imageFile = null;
+    public $imageFileName = '';
 
     public function rules()
     {
@@ -31,8 +33,10 @@ class BandPhoto extends Model
     
     public function uploadBandPhoto($concertId)
     {
+        $this->imageFileName = '';
         if (isset($this->imageFile) && $this->validate()) {
-            $this->imageFile->saveAs('band_images/bandPhotoConcertId' . (int)$concertId . '.' . $this->imageFile->extension);
+            $this->imageFileName = self::BASE_IMAGE_FILE_NAME . (int)$concertId . '.' . $this->imageFile->extension;
+            $this->imageFile->saveAs($this->imageFileName);
             return true;
         } else {
             return false;

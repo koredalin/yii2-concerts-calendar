@@ -122,8 +122,11 @@ class ConcertController extends Controller
             if ($isBandPhoto && $isValidConcert) {
                 $bandPhotoModel->imageFile = UploadedFile::getInstance($bandPhotoModel, 'imageFile');
                 $isUploadedPhoto = (int)$bandPhotoModel->uploadBandPhoto($model->id);
-                $model->has_photo = ($isUploadedPhoto) ? 1 : 0;
-                $model->has_photo ? $isValidConcert = $model->save() : false;
+                if($isUploadedPhoto) {
+                    $model->has_photo = 1;
+                    $model->photo_file_path = $bandPhotoModel->imageFileName;
+                    $isValidConcert = $model->save();
+                }
             }
             if ($isValidConcert) {
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -160,7 +163,10 @@ class ConcertController extends Controller
             if ($isPostBandPhoto) {
                 $bandPhotoModel->imageFile = UploadedFile::getInstance($bandPhotoModel, 'imageFile');
                 $isUploadedPhoto = (int)$bandPhotoModel->uploadBandPhoto($model->id);
-                $model->has_photo = ($isUploadedPhoto) ? 1 : 0;
+                if($isUploadedPhoto) {
+                    $model->has_photo = 1;
+                    $model->photo_file_path = $bandPhotoModel->imageFileName;
+                }
             }
             $isValidConcert = $model->load($post) && $model->save();
             if ($isValidConcert) {
@@ -185,7 +191,9 @@ class ConcertController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        Concert::deleteBandPhoto($model->photo_file_path);
+        $model->delete();
 
         return $this->redirect(['index']);
     }
