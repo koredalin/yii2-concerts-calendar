@@ -12,7 +12,11 @@ use app\models\Concert;
  */
 class ConcertSearch extends Concert
 {
-    public $bandName;
+    /**
+     * @inheritdoc
+     */
+    // public band_id;
+    public $band_name;
     
     /**
      * {@inheritdoc}
@@ -21,7 +25,7 @@ class ConcertSearch extends Concert
     {
         return [
             [['id', 'band_id', 'country_id'], 'integer'],
-            [['date', 'location', 'description', 'created_at', 'updated_at', 'bandName'], 'safe'],
+            [['date', 'location', 'description', 'created_at', 'updated_at', 'band_name'], 'safe'],
         ];
     }
 
@@ -44,12 +48,13 @@ class ConcertSearch extends Concert
     public function search($params)
     {
         $query = Concert::find();
-        $query->joinWith(['band']);
+        $query->innerJoinWith('band', true);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['attributes' => ['date', 'band_name', 'location']],
         ]);
 
         $this->load($params);
@@ -72,7 +77,7 @@ class ConcertSearch extends Concert
 
         $query->andFilterWhere(['like', 'location', $this->location])
             ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'band.name', $this->bandName]);
+            ->andFilterWhere(['like', 'band.name', $this->band_name]);
 
         return $dataProvider;
     }

@@ -79,16 +79,16 @@ class BandController extends Controller
         $out = ['results' => ['id' => '', 'text' => '']];
         if (!is_null($q)) {
             $query = Band::find();
-            $query->select('name AS id, name AS text')
+            $query->select('band_name AS id, band_name AS text')
                 ->from('band')
-                ->where(['like', 'name', $q])
+                ->where(['like', 'band_name', $q])
                 ->limit(20);
             $command = $query->createCommand();
             $data = $command->queryAll();
             $out['results'] = array_values($data);
         }
         elseif ($id > 0) {
-            $out['results'] = ['id' => $id, 'text' => City::find($id)->name];
+            $out['results'] = ['id' => $id, 'text' => Band::find($id)->band_name];
         }
         return $out;
     }

@@ -19,7 +19,7 @@ class BandSearch extends Band
     {
         return [
             [['id'], 'integer'],
-            [['name', 'created_at', 'updated_at'], 'safe'],
+            [['band_name', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -64,7 +64,7 @@ class BandSearch extends Band
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'band_name', $this->band_name]);
 
         return $dataProvider;
     }

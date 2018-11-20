@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "band".
  *
  * @property int $id
- * @property string $name
+ * @property string $band_name
  * @property string $created_at
  * @property string $updated_at
  *
@@ -30,9 +30,9 @@ class Band extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
-            [['name'], 'string', 'max' => 255],
-            [['name'], 'unique'],
+            [['band_name'], 'required'],
+            [['band_name'], 'string', 'max' => 255],
+            [['band_name'], 'unique'],
             [['created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -44,7 +44,7 @@ class Band extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Band Name'),
+            'band_name' => Yii::t('app', 'Band Name'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];

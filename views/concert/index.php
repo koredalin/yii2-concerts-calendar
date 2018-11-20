@@ -47,11 +47,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label' => 'Band Name',
-                'attribute' => 'bandName',
-                'filter' => Html::activeInput('text', $searchModel, 'bandName', ['class' => 'form-control']),
+                'attribute' => 'band_name',
+                'filter' => Html::activeInput('text', $searchModel, 'band_name', ['class' => 'form-control']),
                 'format' => 'raw',
                 'value' => function ($data) {
-                    return $data->band->name;
+                    return $data->band->band_name;
                 },
             ],
             [

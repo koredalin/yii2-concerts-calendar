@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Band */
 
-$this->title = $model->name;
+$this->title = $model->band_name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Bands'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'name',
+            'band_name',
             'created_at',
             'updated_at',
         ],

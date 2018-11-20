@@ -5,11 +5,11 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Band */
 
-$this->title = Yii::t('app', 'Update Band: ' . $model->name, [
-    'nameAttribute' => '' . $model->name,
+$this->title = Yii::t('app', 'Update Band: ' . $model->band_name, [
+    'nameAttribute' => '' . $model->band_name,
 ]);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Bands'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $model->band_name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
 <div class="band-update">

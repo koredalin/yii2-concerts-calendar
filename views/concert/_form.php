@@ -37,9 +37,9 @@ use yii\web\JsExpression;
 
         // Krajee Select2 Band Name Input
         $url = \yii\helpers\Url::to(['/band/namelist']);// Get the initial band description
-        $bandName = empty($bandModel) ? '' : $bandModel->name;
+        $band_name = empty($bandModel) ? '' : $bandModel->name;
         echo $form->field($bandModel, 'name')->widget(Select2::classname(), [
-            'initValueText' => $bandName, // set the initial display text
+            'initValueText' => $band_name, // set the initial display text
             'options' => ['placeholder' => 'Search for a band ...'],
             'pluginOptions' => [
                 'tags' => true,
