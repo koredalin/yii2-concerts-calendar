@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'band',
                 'Label' => 'Band',
-                'value' => $model->band->name,
+                'value' => $model->band->band_name,
             ],
             'location',
             [

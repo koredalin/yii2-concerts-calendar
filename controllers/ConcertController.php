@@ -109,9 +109,9 @@ class ConcertController extends Controller
     {
         $model = new Concert();
         $post = Yii::$app->request->isPost ? Yii::$app->request->post() : array();
-        $isPostBand = isset($post['Band']['name']) && !empty($post['Band']['name']);
+        $isPostBand = isset($post['Band']['band_name']) && !empty($post['Band']['band_name']);
         if ($isPostBand) {
-            $bandModel = Band::findOne(['name' => trim($post['Band']['name'])]);
+            $bandModel = Band::findOne(['band_name' => trim($post['Band']['band_name'])]);
         }
         !isset($bandModel) ? $bandModel = new Band() : false;
         $bandPhotoModel = new BandPhoto();
