@@ -48,6 +48,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'created_at',
             'updated_at',
+            [
+                'attribute' => 'band_photo',
+                'format' => 'raw',
+                'value' => $model->has_photo ? Html::img('@web/'.$model->photo_file_path, array('alt' => 'Server Band Concert Photo.', 'class' => 'viewBandConcertPhoto')) : '',
+            ],
         ],
     ]) ?>
 

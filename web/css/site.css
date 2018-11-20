@@ -134,3 +134,34 @@ a.desc:after {
 div.inner-addon {
 	color: #44f;
 }
+
+td>img.viewBandConcertPhoto {
+	display: block;
+	width: 100%;
+	margin: 0 auto;
+	max-width: 450px;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.homepage-anchor-button {
+	margin: 0 10px;
+}
+
+#concertLeftInputs, #localImagePreview {
+	display: block;
+	float: left;
+	width: 50%;
+}
+#localImagePreview>img {
+	display: block;
+	max-width: 400px;
+	margin: 0 auto;
+	width: 90%;
+}
+
+div.site-about ul {
+	font-size: 1.2em;
+}
