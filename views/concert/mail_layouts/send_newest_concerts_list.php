@@ -25,13 +25,13 @@ use yii\helpers\Url;
         foreach ($newestConcerts as $key => $concert) {
             $concertLink = Url::toRoute(['/concert/view', 'id' => (int)$concert['id']], 'http');
         ?>
-        <p>Concert: <?= substr($concert['description'], 0, 70) ?>... <a target="_blank" href="<?= $concertLink ?>">Read more.</a></p>
-        <ul>
-            <li>Date: <?= $concert['date'] ?></li>
-            <li>Band: <?= $concert['band_name'] ?></li>
-            <li>Location: <?= $concert['location'].'('.$concert['country'].')' ?></li>
-        </ul>
-        <hr>
+            <p>Concert: <?= substr($concert['description'], 0, 70) ?>... <a target="_blank" href="<?= $concertLink ?>">Read more.</a></p>
+            <ul>
+                <li>Date: <?= $concert['date'] ?></li>
+                <li>Band: <?= $concert['band_name'] ?></li>
+                <li>Location: <?= $concert['location'].'('.$concert['country'].')' ?></li>
+            </ul>
+            <hr>
         <?php
         }
     }
