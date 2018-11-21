@@ -109,6 +109,7 @@ class ConcertController extends Controller
     {
         $model = new Concert();
         $post = Yii::$app->request->isPost ? Yii::$app->request->post() : array();
+        $this->formatPostDate($post);
         $isPostBand = isset($post['Band']['band_name']) && !empty($post['Band']['band_name']);
         if ($isPostBand) {
             $bandModel = Band::findOne(['band_name' => trim($post['Band']['band_name'])]);
@@ -116,7 +117,6 @@ class ConcertController extends Controller
         !isset($bandModel) ? $bandModel = new Band() : false;
         $bandPhotoModel = new BandPhoto();
         $countries = CountryQuery::getAllCountriesDropdown();
-        
         $isValidBand = $bandModel->load($post) && $bandModel->save();
         if ($isValidBand) {
             $model->band_id = (int)$bandModel->id;
@@ -156,7 +156,7 @@ class ConcertController extends Controller
         $bandPhotoModel = new BandPhoto();
         $countries = CountryQuery::getAllCountriesDropdown();
         $post = Yii::$app->request->isPost ? Yii::$app->request->post() : array();
-        
+        $this->formatPostDate($post);
         $bandModel->updated_at = date('Y-m-d H:i:s');
         $isValidBand = $bandModel->load($post) && $bandModel->save();
         if (Yii::$app->request->isPost && $isValidBand) {
@@ -179,6 +179,13 @@ class ConcertController extends Controller
             'bandPhotoModel' => $bandPhotoModel,
             'countries' => $countries,
         ]);
+    }
+    
+    private function formatPostDate(&$post)
+    {
+        if (isset($post['Concert']['date']) && !empty($post['Concert']['date'])) {
+            $post['Concert']['date'] = date('Y-m-d', strtotime($post['Concert']['date']));
+        }
     }
 
     /**

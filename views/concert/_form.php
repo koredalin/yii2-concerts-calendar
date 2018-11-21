@@ -25,7 +25,9 @@ use yii\web\JsExpression;
             echo DatePicker::widget([
                 'model' => $model,
                 'attribute' => 'date',
-                'dateFormat' => 'yyyy-MM-dd',
+                'dateFormat' => 'd MMMM yyyy',
+//                'dateFormat' => 'php:j F Y',
+//                'dateFormat' => 'yyyy-MM-dd',
                 'options' => ['class' => 'form-control'],
             ]);
             ?>

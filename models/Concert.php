@@ -38,6 +38,7 @@ class Concert extends \yii\db\ActiveRecord
     {
         return [
             [['date', 'band_id', 'location', 'country_id', 'description', 'has_photo'], 'required'],
+            [['date'], 'date', 'format' => 'yyyy-MM-dd'],
             [['date', 'created_at', 'updated_at'], 'safe'],
             [['band_id', 'country_id', 'has_photo'], 'integer'],
             [['description'], 'string'],

@@ -29,7 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'model' => $searchModel,
             'attribute' => 'date',
             // https://www.yiiframework.com/extension/yiisoft/yii2-jui/doc/api/2.1/yii-jui-datepicker#$dateFormat-detail
-            'dateFormat' => 'php:j F Y',
+            'dateFormat' => 'd MMMM yyyy',
+//            'dateFormat' => 'php:j F Y',
+//            'dateFormat' => 'yyyy-MM-dd',
             'options' => ['class' => 'form-control', 'placeholder' => Yii::t('app', 'Search by date')],
         ]);
     $dateFilter .= '</div>'.PHP_EOL;
