@@ -31,4 +31,16 @@ class ConcertQuery extends \yii\db\ActiveQuery
     {
         return parent::one($db);
     }
+	
+	public function getNewestConcerts() {
+		$sqlStr = "SELECT c.`id`, c.`date`, c.`location`, c.`description`, b.`band_name`, country.`name` AS country
+                FROM concert AS c
+                INNER JOIN band AS b
+                ON c.`band_id` = b.`id`
+                INNER JOIN country
+                ON c.`country_id` = country.`id`
+                WHERE c.`updated_at` >= DATE_SUB(NOW(), INTERVAL 2 HOUR);";
+		return \Yii::$app->db->createCommand($sqlStr)
+						->queryAll();
+	}
 }

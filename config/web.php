@@ -26,6 +26,8 @@ $config = [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        
+        /*
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             // send all mails to a file by default. You have to set
@@ -33,6 +35,7 @@ $config = [
             // for the mailer to send real emails.
             'useFileTransport' => true,
         ],
+        /**/
         /* Errors logging stopped
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

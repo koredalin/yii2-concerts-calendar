@@ -9,7 +9,7 @@ use app\models\Band;
 use app\models\BandPhoto;
 use app\models\query\CountryQuery;
 use yii\web\UploadedFile;
-use yii\helpers\Url;
+//use yii\helpers\Url;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use dektrium\user\filters\AccessRule;
@@ -32,8 +32,13 @@ class ConcertController extends Controller
 			    'ruleConfig' => [
 			        'class' => AccessRule::className(),
 			    ],
-				'only' => ['create', 'update', 'delete', 'view', 'index'],
+				'only' => ['sendnewestconcerts', 'create', 'update', 'delete', 'view', 'index'],
 				'rules' => [
+                    [
+						'actions' => ['sendnewestconcerts'],
+						'allow' => true,
+						'roles' => ['?', '@', 'admin'],
+                    ],
 					[
 						'actions' => ['create', 'update', 'delete', 'view', 'index'],
 						'allow' => true,
@@ -202,6 +207,23 @@ class ConcertController extends Controller
         $model->delete();
 
         return $this->redirect(['index']);
+    }
+    
+    public function actionSendnewestconcerts()
+    {
+        $newestConcerts = Concert::find()->getNewestConcerts();
+        if (!is_array($newestConcerts) || empty($newestConcerts)) {
+            return 'No new concerts.';
+        }
+        $recipientMails = array(Yii::$app->params['adminEmail']);
+        $mailer = Yii::$app->mailer->compose()
+                    ->setFrom('info@score-predictor.com')
+                    ->setSubject('Band Concerts Calendar. Newest concerts');
+            $htmlContent = $this->renderPartial('mail_layouts/send_newest_concerts_list', ['newestConcerts' => $newestConcerts]);
+            $mailer->setTo($recipientMails)
+                    ->setHtmlBody($htmlContent)
+                    ->send();
+        return 'Success';
     }
 
     /**
