@@ -28,7 +28,8 @@ $this->params['breadcrumbs'][] = $this->title;
     $dateFilter .= DatePicker::widget([
             'model' => $searchModel,
             'attribute' => 'date',
-            'dateFormat' => 'yyyy-MM-dd',
+            // https://www.yiiframework.com/extension/yiisoft/yii2-jui/doc/api/2.1/yii-jui-datepicker#$dateFormat-detail
+            'dateFormat' => 'php:j F Y',
             'options' => ['class' => 'form-control', 'placeholder' => Yii::t('app', 'Search by date')],
         ]);
     $dateFilter .= '</div>'.PHP_EOL;

@@ -68,7 +68,7 @@ class ConcertSearch extends Concert
         // grid filtering conditions
         $query->andFilterWhere([
 //            'id' => $this->id,
-            'date' => $this->date,
+            'date' => date('Y-m-d', strtotime($this->date)),
 //            'band_id' => $this->band_id,
 //            'country_id' => $this->country_id,
 //            'created_at' => $this->created_at,
