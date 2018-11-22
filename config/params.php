@@ -2,5 +2,6 @@
 
 return [
     'adminEmail' => 'admin@example.com',
-    'defaultEmailSender' => 'default@domain.com',
+    // There is no need the mail to be real.
+    'newestConcertsEmailSender' => 'newest@concerts.com',
 ];

@@ -217,7 +217,7 @@ class ConcertController extends Controller
         }
         $recipientMails = array(Yii::$app->params['adminEmail']);
         $mailer = Yii::$app->mailer->compose()
-                    ->setFrom(Yii::$app->params['defaultEmailSender'])
+                    ->setFrom(Yii::$app->params['newestConcertsEmailSender'])
                     ->setSubject('Band Concerts Calendar. Newest concerts');
             $htmlContent = $this->renderPartial('mail_layouts/newest_concerts', ['newestConcerts' => $newestConcerts]);
             $mailer->setTo($recipientMails)
