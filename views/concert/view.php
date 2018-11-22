@@ -23,6 +23,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?php
+        echo Html::a('Generate Pdf', ['/concert/pdf', 'id' => (int)$model->id], [
+            'class'=>'btn btn-warning', 
+            'target'=>'_blank', 
+            'data-toggle'=>'tooltip', 
+            'title'=>'Will open the generated PDF file in a new window'
+        ]);
+        ?>
     </p>
 
     <?= DetailView::widget([

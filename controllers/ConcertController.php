@@ -9,6 +9,7 @@ use app\models\Band;
 use app\models\BandPhoto;
 use app\models\query\CountryQuery;
 use yii\web\UploadedFile;
+use kartik\mpdf\Pdf;
 //use yii\helpers\Url;
 use yii\web\Controller;
 use yii\filters\AccessControl;
@@ -32,7 +33,7 @@ class ConcertController extends Controller
 			    'ruleConfig' => [
 			        'class' => AccessRule::className(),
 			    ],
-				'only' => ['sendnewestconcerts', 'create', 'update', 'delete', 'view', 'index'],
+				'only' => ['sendnewestconcerts', 'create', 'update', 'delete', 'view', 'index', 'pdf'],
 				'rules' => [
                     [
 						'actions' => ['sendnewestconcerts'],
@@ -40,7 +41,7 @@ class ConcertController extends Controller
 						'roles' => ['?', '@', 'admin'],
                     ],
 					[
-						'actions' => ['create', 'update', 'delete', 'view', 'index'],
+						'actions' => ['create', 'update', 'delete', 'view', 'index', 'pdf'],
 						'allow' => true,
 						'roles' => ['@', 'admin'],
 					],
@@ -224,6 +225,48 @@ class ConcertController extends Controller
                     ->setHtmlBody($htmlContent)
                     ->send();
         return 'Success';
+    }
+    
+    public function actionPdf($id)
+    {
+        $model = $this->findModel($id);
+    // get your HTML raw content without any layouts or scripts
+//    $content = $this->renderPartial('_reportView');
+    $content = $this->renderPartial('pdf_layouts/concert_pdf', ['model' => $model]);
+    
+    // setup kartik\mpdf\Pdf component
+    $pdf = new Pdf([
+        // set to use core fonts only
+        'mode' => Pdf::MODE_CORE, 
+        // A4 paper format
+        'format' => Pdf::FORMAT_A4, 
+        // portrait orientation
+        'orientation' => Pdf::ORIENT_PORTRAIT, 
+        // stream to browser inline
+        'destination' => Pdf::DEST_BROWSER, 
+        // your html content input
+        'content' => $content,  
+        // format content from your own css file if needed or use the
+        // enhanced bootstrap css built by Krajee for mPDF formatting 
+        'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
+        // any css to be embedded if required
+        'cssInline' => '.kv-heading-1{font-size:18px} .bandConcertPhoto{max-width: 400px; width: 90%;}', 
+         // set mPDF properties on the fly
+        'options' => ['title' => 'Krajee Report Title'],
+         // call mPDF methods on the fly
+        'methods' => [ 
+            'SetHeader'=>['Krajee Report Header'], 
+            'SetFooter'=>['{PAGENO}'],
+        ]
+    ]);
+    
+    // return the pdf output as per the destination setting
+    return $pdf->render(); 
+    
+    
+//        Yii::$app->html2pdf
+//            ->render('layouts/concert_pdf', ['model' => $model])
+//            ->saveAs('generated/concert'.(int)$id.'.pdf');
     }
 
     /**
