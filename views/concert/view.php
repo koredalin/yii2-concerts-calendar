@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'country',
                 'Label' => 'Country',
-                'value' => $model->country->name,
+                'value' => $model->country->country_name,
             ],
             'description:ntext',
             [

@@ -11,7 +11,7 @@ use yii\helpers\Html;
         <tr><td><strong>Date</strong></td><td><?= $model->date ?></td></tr>
         <tr><td><strong>Band</strong></td><td><?= $model->band->band_name ?></td></tr>
         <tr><td><strong>Location</strong></td><td><?= $model->location ?></td></tr>
-        <tr><td><strong>Country</strong></td><td><?= $model->country->name ?></td></tr>
+        <tr><td><strong>Country</strong></td><td><?= $model->country->country_name ?></td></tr>
         <tr><td><strong>Description</strong></td><td><?= $model->description ?></td></tr>
         <tr><td><strong>Has Photo</strong></td><td><?= $model->has_photo ?></td></tr>
         <tr><td><strong>Created At</strong></td><td><?= $model->created_at ?></td></tr>

@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "country".
  *
  * @property int $id
- * @property string $name
+ * @property string $country_name
  * @property string $iso_abbr
  * @property string $un_abbr
  * @property string $dialing_code
@@ -31,8 +31,8 @@ class Country extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'iso_abbr', 'un_abbr', 'dialing_code'], 'required'],
-            [['name'], 'string', 'max' => 100],
+            [['country_name', 'iso_abbr', 'un_abbr', 'dialing_code'], 'required'],
+            [['country_name'], 'string', 'max' => 100],
             [['iso_abbr'], 'string', 'max' => 2],
             [['un_abbr'], 'string', 'max' => 3],
             [['dialing_code'], 'string', 'max' => 20],
@@ -46,7 +46,7 @@ class Country extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
+            'country_name' => Yii::t('app', 'Country'),
             'iso_abbr' => Yii::t('app', 'Iso Abbr'),
             'un_abbr' => Yii::t('app', 'Un Abbr'),
             'dialing_code' => Yii::t('app', 'Dialing Code'),

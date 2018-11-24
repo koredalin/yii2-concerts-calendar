@@ -33,7 +33,7 @@ class CountryQuery extends \yii\db\ActiveQuery
     }
 	
 	public static function getAllCountries() {
-		$sqlStr = 'SELECT `id`, `name` FROM country';
+		$sqlStr = 'SELECT `id`, `country_name` FROM country';
 		return \Yii::$app->db->createCommand($sqlStr)
 						->queryAll();
 	}
@@ -45,7 +45,7 @@ class CountryQuery extends \yii\db\ActiveQuery
             return $dropdownCountries;
         }
         foreach ($sqlArr as $country) {
-            $dropdownCountries[$country['id']] = $country['name'];
+            $dropdownCountries[$country['id']] = $country['country_name'];
         }
         return $dropdownCountries;
 	}

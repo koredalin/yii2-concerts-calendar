@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'country_name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'iso_abbr')->textInput(['maxlength' => true]) ?>
 
