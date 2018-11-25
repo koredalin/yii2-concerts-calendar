@@ -22,7 +22,8 @@
         "yiisoft/yii2-jui": "^2.0",
         "rmrevin/yii2-fontawesome": "~3.2",
         "kartik-v/yii2-widget-select2": "@dev",
-        "kartik-v/yii2-mpdf": "dev-master"
+        "kartik-v/yii2-mpdf": "dev-master",
+		"yiisoft/yii2-elasticsearch": "~2.0.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

@@ -19,6 +19,7 @@ $this->title = 'My Yii Application';
             echo Html::a('Register', ['/user/register'], ['class' => 'btn btn-lg btn-primary homepage-anchor-button']);
         } else {
             echo Html::a('Concerts', ['/concert/index'], ['class' => 'btn btn-lg btn-success homepage-anchor-button']);
+            echo Html::a('Elastic Search', ['/elasticconcert/index'], ['class' => 'btn btn-lg btn-success homepage-anchor-button']);
             echo Html::a('Bands', ['/band/index'], ['class' => 'btn btn-lg btn-primary homepage-anchor-button']);
             if (\Yii::$app->user->identity->isAdmin) {
                 echo Html::a('Countries', ['/country/index'], ['class' => 'btn btn-lg btn-warning homepage-anchor-button']);

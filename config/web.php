@@ -69,6 +69,14 @@ $config = [
             'destination' => Pdf::DEST_BROWSER,
             // refer settings section for all configuration options
         ],
+        'elasticsearch' => [
+            'class' => 'yii\elasticsearch\Connection',
+            'nodes' => [
+//                ['http_address' => '127.0.0.1:9200'],
+                ['http_address' => 'localhost:9200'],
+                // configure more hosts if you have a cluster
+            ],
+        ],
     ],
     'modules' => [
         'user' => [
