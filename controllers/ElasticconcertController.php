@@ -29,8 +29,13 @@ class ElasticconcertController extends Controller
 			    'ruleConfig' => [
 			        'class' => AccessRule::className(),
 			    ],
-				'only' => ['save', 'index', 'search', 'createindex', 'updatemapping', 'deleteindex',],
+				'only' => ['loadnewest', 'save', 'index', 'search', 'createindex', 'updatemapping', 'deleteindex',],
 				'rules' => [
+                    [
+						'actions' => ['loadnewest',],
+						'allow' => true,
+						'roles' => ['?', '@', 'admin',],
+                    ],
                     [
 						'actions' => ['save', 'index', 'search',],
 						'allow' => true,
@@ -50,6 +55,23 @@ class ElasticconcertController extends Controller
                 ],
             ],
         ];
+    }
+    
+    /**
+     * The action loads the latest concerts into Elastic database.
+     * @param type array $newestConcerts
+     * @return string
+     */
+    public function actionLoadnewest(array $newestConcerts)
+    {
+        $newestConcertsIds = array_column($newestConcerts, 'id');
+        if (!is_array($newestConcertsIds) || empty($newestConcertsIds)) {
+            return 'No new/updated concerts.';
+        }
+        foreach ($newestConcertsIds as $concertId) {
+            $this->actionSave((int)$concertId);
+        }
+        return count($newestConcerts) . ' concerts added.';
     }
     
     public function actionSave($id)
@@ -80,10 +102,8 @@ class ElasticconcertController extends Controller
     public function actionSearch()
     {
         $elastic = new ElasticConcertSearch();
-//        print_r(Yii::$app->request->queryParams); exit;
         $result  = $elastic->Searches(Yii::$app->request->queryParams);
         $query = Yii::$app->request->queryParams;
-//        print_r($result); exit;
         return $this->render('search', [
             'searchModel'  => $elastic,
             'dataProvider' => $result,

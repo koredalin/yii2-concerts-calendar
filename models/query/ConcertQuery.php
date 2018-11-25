@@ -33,7 +33,7 @@ class ConcertQuery extends \yii\db\ActiveQuery
     }
 	
 	public function getNewestConcerts() {
-		$sqlStr = "SELECT c.`id`, c.`date`, c.`location`, c.`description`, b.`band_name`, country.`name` AS country
+		$sqlStr = "SELECT c.`id`, c.`date`, c.`location`, c.`description`, b.`band_name`, country.`country_name` AS country
                 FROM concert AS c
                 INNER JOIN band AS b
                 ON c.`band_id` = b.`id`

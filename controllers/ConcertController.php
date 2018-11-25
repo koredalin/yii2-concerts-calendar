@@ -216,6 +216,7 @@ class ConcertController extends Controller
         if (!is_array($newestConcerts) || empty($newestConcerts)) {
             return 'No new concerts.';
         }
+        Yii::$app->runAction('elasticconcert/loadnewest', ['newestConcerts' => $newestConcerts]);
         $recipientMails = array(Yii::$app->params['adminEmail']);
         $mailer = Yii::$app->mailer->compose()
                     ->setFrom(Yii::$app->params['newestConcertsEmailSender'])
