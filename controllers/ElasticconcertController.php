@@ -29,12 +29,17 @@ class ElasticconcertController extends Controller
 			    'ruleConfig' => [
 			        'class' => AccessRule::className(),
 			    ],
-				'only' => ['insert', 'index', 'search',],
+				'only' => ['save', 'index', 'search', 'createindex', 'updatemapping', 'deleteindex',],
 				'rules' => [
                     [
-						'actions' => ['insert', 'index', 'search',],
+						'actions' => ['save', 'index', 'search',],
 						'allow' => true,
 						'roles' => ['@', 'admin'],
+                    ],
+                    [
+						'actions' => ['createindex', 'updatemapping', 'deleteindex',],
+						'allow' => true,
+						'roles' => ['admin'],
                     ],
 				],
 			],
@@ -47,7 +52,7 @@ class ElasticconcertController extends Controller
         ];
     }
     
-    public function actionInsert($id)
+    public function actionSave($id)
     {
         $elastic        = new ElasticConcert();
         $concertModel = $this->findModel($id);
@@ -84,6 +89,27 @@ class ElasticconcertController extends Controller
             'dataProvider' => $result,
             'query'        => $query['search'],
         ]);
+    }
+ 
+    public function actionCreateindex()
+    {
+        ElasticConcert::createIndex();
+        
+        return 'ElasticConcert index created. Mapping set.';
+    }
+ 
+    public function actionUpdatemapping()
+    {
+        ElasticConcert::updateMapping();
+        
+        return 'ElasticConcert mapping updated.';
+    }
+ 
+    public function actionDeleteindex()
+    {
+        ElasticConcert::deleteIndex();
+        
+        return 'ElasticConcert index deleted.';
     }
 
     /**

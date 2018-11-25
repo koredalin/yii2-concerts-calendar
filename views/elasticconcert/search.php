@@ -1,6 +1,7 @@
 <?php
 
-use yii\helpers\BaseStringHelper;
+use yii\helpers\Html;
+//use yii\helpers\BaseStringHelper;
 
 $this->title = 'Search';
 ?>
@@ -27,5 +28,6 @@ if (is_array($searchResults) && count($searchResults) > 0) {
         echo "</div>";
     }
 }?>
- 
 </div>
+
+<div id="search-again"><?php echo Html::a('Search again', ['/elasticconcert/index'], ['class' => 'btn btn-primary']); ?></div> 

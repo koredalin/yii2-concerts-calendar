@@ -21,7 +21,8 @@ class ElasticConcertSearch extends ElasticConcert
        $query        = new Query();
        $db           = ElasticConcert::getDb();
        $queryBuilder = new QueryBuilder($db);
-       $match   = ['match' => ['concert_location' =>$searchs]];
+//       $match   = ['match' => ['concert_location' =>$searchs]];
+       $match   = ['wildcard' => ['concert_location' => '*'.$searchs.'*']];
        $query->query = $match;
        $build        = $queryBuilder->build($query);
        $re           = $query->search($db, $build);
