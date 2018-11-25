@@ -102,6 +102,8 @@ class BandController extends Controller
     {
         $model = new Band();
 
+//        $model->created_at = date('Y-m-d H:i:s');
+//        $model->created_at = date('Y-m-d H:i:s');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
