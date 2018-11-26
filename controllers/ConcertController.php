@@ -168,7 +168,7 @@ class ConcertController extends Controller
         if (Yii::$app->request->isPost && $isValidBand) {
             $model->band_id = (int)$bandModel->id;
             $bandPhotoModel->imageFile = UploadedFile::getInstance($bandPhotoModel, 'imageFile');
-            if($bandPhotoModel->uploadBandPhoto($model->id)) {
+            if($bandPhotoModel->uploadBandPhoto($model->id, $model->photo_file_path)) {
                 $model->has_photo = 1;
                 $model->photo_file_path = $bandPhotoModel->imageFileName;
             }

@@ -31,11 +31,19 @@ class BandPhoto extends Model
         }
     }
     
-    public function uploadBandPhoto($concertId)
+    public function uploadBandPhoto($concertId, $oldFilePath = '')
     {
         $this->imageFileName = '';
         if (isset($this->imageFile) && $this->validate()) {
-            $this->imageFileName = self::BASE_IMAGE_FILE_NAME . (int)$concertId . '.' . $this->imageFile->extension;
+            $oldFilePath = trim($oldFilePath);
+            if ($oldFilePath !== '' && is_file($oldFilePath)) {
+                preg_match('/V(\d+)./', $oldFilePath, $matches);
+                $version = (int)$matches[1] + 1;
+                unlink($oldFilePath);
+            } else {
+                $version = 1;
+            }
+            $this->imageFileName = self::BASE_IMAGE_FILE_NAME.(int)$concertId.'V'.$version.'.'.$this->imageFile->extension;
             $this->imageFile->saveAs($this->imageFileName);
             return true;
         } else {
